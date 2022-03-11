@@ -45,7 +45,7 @@ app.layout = html.Div(children=[
     
                 dcc.Dropdown(
                     id='your_input_here',
-                    options=[{"label":x, "value":x} for x in list_of_columns],              ,
+                    options=[{"label":x, "value":x} for x in list_of_columns],              
                     value='beef',
                     ),   
         ], className='two columns'),
