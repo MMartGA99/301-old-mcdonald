@@ -39,19 +39,21 @@ app.title=tabtitle
 
 app.layout = html.Div(children=[
     html.H1(myheading1),
+    html.Div([
+        html.Div([
+                html.H6('Select a variable for analysis:'),
     
-    dcc.Dropdown(
-        id='your_input_here',
-        options=[{"label":x, "value":x} for x in list_of_columns],              ,
-        value='beef',
-        ),   
+                dcc.Dropdown(
+                    id='your_input_here',
+                    options=[{"label":x, "value":x} for x in list_of_columns],              ,
+                    value='beef',
+                    ),   
+        ], className='two colums'),
+        html.Div([
+            dcc.Graph(id='figure-1')], 
+            className = 'ten columns'),
+                 ], className = 'twelve columns'),
     
-    
-    
-    dcc.Graph(
-        id='figure-1'#,
-        #figure=fig
-    ),
     html.A('Code on Github', href=githublink),
     html.Br(),
     html.A("Data Source", href=sourceurl),
