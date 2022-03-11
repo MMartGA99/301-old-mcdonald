@@ -12,11 +12,11 @@ list_of_columns =['code', 'state', 'category', 'total exports', 'beef', 'pork', 
        'dairy', 'fruits fresh', 'fruits proc', 'total fruits', 'veggies fresh',
        'veggies proc', 'total veggies', 'corn', 'wheat', 'cotton']
 
-mycolumn='beef'
-myheading1 = f"Wow! That's a lot of {mycolumn}!"
-mygraphtitle = '2011 US Agriculture Exports by State'
-mycolorscale = 'ylorrd' # Note: The error message will list possible color scales.
-mycolorbartitle = "Millions USD"
+#mycolumn='beef'
+#myheading1 = f"Wow! That's a lot of {mycolumn}!"
+#mygraphtitle = '2011 US Agriculture Exports by State'  --moved inside function
+#mycolorscale = 'ylorrd' # Note: The error message will list possible color scales. --moved inside function
+#mycolorbartitle = "Millions USD" --moved inside function
 tabtitle = 'Old McDonald'
 sourceurl = 'https://plot.ly/python/choropleth-maps/'
 githublink = 'https://github.com/austinlasseter/dash-map-usa-agriculture'
@@ -38,7 +38,7 @@ app.title=tabtitle
 ########### Set up the layout
 
 app.layout = html.Div(children=[
-    html.H1(myheading1),
+    html.H1("test title),
     html.Div([
         html.Div([
                 html.H6('Select a variable for analysis:'),
@@ -48,7 +48,7 @@ app.layout = html.Div(children=[
                     options=[{"label":x, "value":x} for x in list_of_columns],              ,
                     value='beef',
                     ),   
-        ], className='two colums'),
+        ], className='two columns'),
         html.Div([
             dcc.Graph(id='figure-1')], 
             className = 'ten columns'),
@@ -66,8 +66,10 @@ app.layout = html.Div(children=[
               [Input('your_input_here', 'value')])
 def radio_results(value_you_chose):
     #return html.Img(src=app.get_asset_url(image_you_chose), style={'width': 'auto', 'height': '50%'}),
-
-
+    mygraphtitle = f'2011 US Agriculture Exports by {value_you_chose}'
+    mycolorscale = 'ylorrd' # Note: The error message will list possible color scales.
+    mycolorbartitle = "Millions USD"
+    
     fig = go.Figure(data=go.Choropleth(
         locations=df['code'], # Spatial coordinates
         z = df[value_you_chose].astype(float), # Data to be color-coded
