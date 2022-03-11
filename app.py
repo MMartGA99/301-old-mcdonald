@@ -41,7 +41,7 @@ app.layout = html.Div(children=[
     
   dcc.RadioItems(
         id='your_input_here',
-        options=[{"label":x, "options":x} for x in list_of_columns],              ,
+        options=[{"label":x, "value":x} for x in list_of_columns],              ,
         value=list_of_columns[4],
         ),   
     
@@ -61,13 +61,13 @@ app.layout = html.Div(children=[
 ########## Define Callback -- NEW
 @app.callback(Output('figure-1', 'figure'),
               [Input('your_input_here', 'value')])
-def radio_results(image_you_chose):
+def radio_results(value_you_chose):
     #return html.Img(src=app.get_asset_url(image_you_chose), style={'width': 'auto', 'height': '50%'}),
 
 
     fig = go.Figure(data=go.Choropleth(
         locations=df['code'], # Spatial coordinates
-        z = df[mycolumn].astype(float), # Data to be color-coded
+        z = df[value_you_chose].astype(float), # Data to be color-coded
         locationmode = 'USA-states', # set of locations match entries in `locations`
         colorscale = mycolorscale,
         colorbar_title = mycolorbartitle,
@@ -84,4 +84,4 @@ def radio_results(image_you_chose):
 
 ############ Deploy
 if __name__ == '__main__':
-    app.run_server(debug=True)
+    app.run_server(debug=False)
