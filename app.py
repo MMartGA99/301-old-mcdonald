@@ -3,6 +3,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 import plotly.graph_objs as go
 import pandas as pd
+from dash.dependencies import Input, Output, State
 
 ########### Define your variables ######
 
@@ -39,10 +40,10 @@ app.title=tabtitle
 app.layout = html.Div(children=[
     html.H1(myheading1),
     
-  dcc.RadioItems(
+    dcc.Dropdown(
         id='your_input_here',
         options=[{"label":x, "value":x} for x in list_of_columns],              ,
-        value=list_of_columns[4],
+        value='beef',
         ),   
     
     
@@ -84,4 +85,4 @@ def radio_results(value_you_chose):
 
 ############ Deploy
 if __name__ == '__main__':
-    app.run_server(debug=False)
+    app.run_server(debug=True)
