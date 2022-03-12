@@ -8,7 +8,7 @@ from dash.dependencies import Input, Output, State
 ########### Define your variables ######
 
 # here's the list of possible columns to choose from.
-list_of_columns =['code', 'state', 'category', 'total exports', 'beef', 'pork', 'poultry',
+list_of_columns =['total exports', 'beef', 'pork', 'poultry',
        'dairy', 'fruits fresh', 'fruits proc', 'total fruits', 'veggies fresh',
        'veggies proc', 'total veggies', 'corn', 'wheat', 'cotton']
 
@@ -38,15 +38,16 @@ app.title=tabtitle
 ########### Set up the layout
 
 app.layout = html.Div(children=[
-    html.H1("test title),
-    html.Div([
+    html.H1(id='my-heading',),
+    #html.H1(f"test title"),
+    html.Div([        
         html.Div([
-                html.H6('Select a variable for analysis:'),
-    
+                html.Label('Select A Variable:'),              
                 dcc.Dropdown(
                     id='your_input_here',
                     options=[{"label":x, "value":x} for x in list_of_columns],              
                     value='beef',
+                    style={'width': '48%'}
                     ),   
         ], className='two columns'),
         html.Div([
@@ -62,12 +63,14 @@ app.layout = html.Div(children=[
 
 
 ########## Define Callback -- NEW
-@app.callback(Output('figure-1', 'figure'),
+@app.callback([Output('figure-1', 'figure'),
+               #This second output is linked to, and updates html.H1
+               Output('my-heading', 'children')],
               [Input('your_input_here', 'value')])
 def radio_results(value_you_chose):
     #return html.Img(src=app.get_asset_url(image_you_chose), style={'width': 'auto', 'height': '50%'}),
     mygraphtitle = f'2011 US Agriculture Exports by {value_you_chose}'
-    mycolorscale = 'ylorrd' # Note: The error message will list possible color scales.
+    mycolorscale = "Cividis"  #'ylorrd' # Note: The error message will list possible color scales.
     mycolorbartitle = "Millions USD"
     
     fig = go.Figure(data=go.Choropleth(
@@ -85,7 +88,9 @@ def radio_results(value_you_chose):
         height=800
     )
     
-    return fig
+      
+    #The items returned are mapped, in order, to each output list in your @app.callback function
+    return fig, f"{value_you_chose.title()} Exports Across the U.S.!"
 
 ############ Deploy
 if __name__ == '__main__':
